@@ -8,7 +8,7 @@ import dealenx.geometry.figures.three_dimensional.*;
 public class GeometricApp {
 
 	public static void main(String[] args) {
-
+/*
 		try {
 			Circle circle = new Circle();
 			System.out.println( "MY Circle" +  circle.getRadius() );
@@ -20,6 +20,6 @@ public class GeometricApp {
         System.out.println("Error code:" + ex.getErrorCode());
         System.out.println("Error message:" + ex.getMessage());
     }
-
+*/
 	}
 }
