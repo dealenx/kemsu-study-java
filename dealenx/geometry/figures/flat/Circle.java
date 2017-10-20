@@ -9,7 +9,7 @@ public class Circle implements Squareable, Cloneable {
 	private double radius;
 	private double num;
 
-	private void Init(double f_radius) throws MyException {
+	protected void Init(double f_radius) throws MyException {
 		setRadius(f_radius);
 	}
 
@@ -18,7 +18,9 @@ public class Circle implements Squareable, Cloneable {
 	}
 
 	public Circle(double f_radius) throws MyException {
+		System.out.println("	public Circle(double f_radius) throws MyException 1 " + f_radius);
 		Init(f_radius);
+		System.out.println("	public Circle(double f_radius) throws MyException 2 " + f_radius);
 	}
 	public double getSquare() {
 		return (radius * radius  * 3.14);
@@ -30,7 +32,7 @@ public class Circle implements Squareable, Cloneable {
 	public void setRadius(double l_radius) throws MyException {
 
 		checkNum(radius, l_radius);
-		System.out.println("radius");
+
 		System.out.println(l_radius);
 	}
 
