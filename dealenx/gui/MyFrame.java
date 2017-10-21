@@ -9,8 +9,7 @@ public class MyFrame extends Frame {
   Button topBut = new Button("MyButton");
   Button rightBut = new Button("MyButton");
   Button bottomBut = new Button("MyButton");
-  Button test = new Button("MyButton");
-
+  MyCanvas vanvas = new MyCanvas();
   Panel p = new Panel();
 
   public MyFrame() {
@@ -19,7 +18,7 @@ public class MyFrame extends Frame {
     p.add(topBut, BorderLayout.NORTH);
     p.add(rightBut, BorderLayout.EAST);
     p.add(bottomBut, BorderLayout.SOUTH);
-    p.add(test, BorderLayout.CENTER);
+    p.add(pa, BorderLayout.CENTER);
 
     leftBut.addActionListener( new MyActionListener(this) );
     addWindowListener(new MyWindowListener(this));
