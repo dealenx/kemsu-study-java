@@ -5,13 +5,24 @@ import java.awt.event.*;
 
 
 public class MyFrame extends Frame {
-  Button b = new Button("MyButton");
+  Button leftBut = new Button("MyButton");
+  Button topBut = new Button("MyButton");
+  Button rightBut = new Button("MyButton");
+  Button bottomBut = new Button("MyButton");
+  Button test = new Button("MyButton");
+
   Panel p = new Panel();
 
   public MyFrame() {
-    b.addActionListener( new MyActionListener(this) );
+    p.setLayout(new BorderLayout());
+    p.add(leftBut, BorderLayout.WEST);
+    p.add(topBut, BorderLayout.NORTH);
+    p.add(rightBut, BorderLayout.EAST);
+    p.add(bottomBut, BorderLayout.SOUTH);
+    p.add(test, BorderLayout.CENTER);
+
+    leftBut.addActionListener( new MyActionListener(this) );
     addWindowListener(new MyWindowListener(this));
-    p.add(b);
     add(p);
 
     setTitle("MyFirstFrame");
