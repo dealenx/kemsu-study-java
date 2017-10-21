@@ -18,9 +18,7 @@ public class Circle implements Squareable, Cloneable {
 	}
 
 	public Circle(double f_radius) throws MyException {
-		System.out.println("	public Circle(double f_radius) throws MyException 1 " + f_radius);
 		Init(f_radius);
-		System.out.println("	public Circle(double f_radius) throws MyException 2 " + f_radius);
 	}
 	public double getSquare() {
 		return (radius * radius  * 3.14);

@@ -9,7 +9,7 @@ public class Cylinder extends Circle implements Volumeable{
 
   protected void Init(double f_radius,double f_height ) throws MyException {
     /*
-    super.Init(f_radius); // НЕ ПРОХОДИТ ПРИСВОЕНИЕ К ПЕРЕМЕННОЙ
+    super.Init(f_radius);
     setHeight(f_height);
     */
     setRadius(f_radius);
@@ -19,11 +19,11 @@ public class Cylinder extends Circle implements Volumeable{
   // Constructors
    public Cylinder() throws MyException  {
       super();
-      height = 4;
+      setHeight(1);
    }
    public Cylinder(double l_height) throws MyException  {
       super();
-      height = l_height;
+      setHeight(l_height);
    }
    public Cylinder(double l_height, double l_radius) throws MyException  {
 
