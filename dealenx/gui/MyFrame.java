@@ -9,6 +9,7 @@ public class MyFrame extends Frame {
   Panel p = new Panel();
 
   public MyFrame() {
+    b.addActionListener( new MyActionListener(this) );
     p.add(b);
     add(p);
 
@@ -18,8 +19,5 @@ public class MyFrame extends Frame {
     setVisible(true);
     System.out.println("Finish app");
   }
-
-
-
 
 }
