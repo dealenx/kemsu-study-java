@@ -3,8 +3,7 @@ package app;
 import java.awt.*;
 import java.awt.event.*;
 
-import dealenx.gui.MyFrame;
-import dealenx.gui.MyActionListener;
+import dealenx.gui.*;
 
 public class GUIApp {
 

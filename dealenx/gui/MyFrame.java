@@ -10,6 +10,7 @@ public class MyFrame extends Frame {
 
   public MyFrame() {
     b.addActionListener( new MyActionListener(this) );
+    addWindowListener(new MyWindowListener(this));
     p.add(b);
     add(p);
 
