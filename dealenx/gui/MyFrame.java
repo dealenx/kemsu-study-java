@@ -6,11 +6,9 @@ import java.awt.event.*;
 
 public class MyFrame extends Frame {
 
-  Button topBut = new Button("top");
-  Button lefttBut = new Button("left");
-  Button bottomBut = new Button("bottom");
+  Button butStart= new Button("Start");
   MyCanvas canvas = new MyCanvas();
-
+  MyThread t1=new MyThread("RollingBall", canvas);
 
   Panel p = new Panel();
   Panel top = new Panel();
@@ -44,7 +42,14 @@ public class MyFrame extends Frame {
     top.add(panelMove);
     top.add(panelSize);
     top.add(panelRotation);
-    top.add(new Button("Animation"));
+    top.add(butStart);
+
+    butStart.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("But start");
+            t1.start();
+        }
+    });
 
     panelVote.setLayout(new GridLayout(2,1));
     panelVote.add(selectFigure);

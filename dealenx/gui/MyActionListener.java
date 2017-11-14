@@ -4,17 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 
 class MyActionListener implements ActionListener {
-    Frame f;
-    MyCanvas snvs;
+    Frame frame;
+    MyCanvas canvas;
 
-    public MyActionListener(Frame lf, MyCanvas lsnvs) {
-        f = lf;
-        snvs = lsnvs;
+    public MyActionListener(Frame frame, MyCanvas canvas) {
+        this.frame = frame;
+        this.canvas = canvas;
     }
 
     public void actionPerformed(ActionEvent e) {
-
-        System.out.println("in procces..");
 
     }
 
