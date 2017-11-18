@@ -2,24 +2,28 @@ package dealenx.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 
 
 class MyCanvas extends Canvas {
-    int x, y, my, mx,sx,sy;
-    int xp, yp ,sxp, syp;
+    private int x, y, my, mx,sizeX,sizeY;
+    private int xp, yp ,sxp, syp;
+    public int choice;
+    public double gradus;
+
 
     public MyCanvas() {
         super();
-        x = 175;
-        y = 150;
+        x = 200;
+        y = 50;
         my = 1;
         mx = 1;
-        sx=25;
-        sy=25;
+        sizeX=50;
+        sizeY=50;
+        choice = 2;
+        gradus = 2*Math.PI;
         //xp = 150;
         //yp = 310;
-        sxp = 100;
-        syp = 10;
     }
 
     public void setBall(int width, int height){
@@ -27,60 +31,79 @@ class MyCanvas extends Canvas {
         y = height/2;
     }
 
-    public void SetSticker(int width, int height){
-        xp = width/2 - sxp;
-        yp = height - syp * 10;
-    }
-
-    public void harder(){
-        my += 1;
-        mx += 1;
-        if (my >= 4 && mx >= 4) {
-            mx = 4;
-            my = 4;
-        }
-    }
-
-    public void easier(){
-        my -= 1;
-        mx -= 1;
-        if (my == 0 && mx == 0) {
-            mx = 1;
-            my = 1;
-        }
-    }
 
     public void paint(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillOval(x,y,sx,sy);
+        /*g.setColor(Color.orange);
+        g.fillOval(x,y,sizeX,sizeY);*/
+
+Graphics2D g2d = (Graphics2D) g.create();
+        g2d.rotate(gradus);
+        //g2d.translate((-1)*y,( -1*(1 + (y/x)))*x);
+        if(choice == 1) {
+          g2d.fillRect(x,y,sizeX,sizeY);
+        } else {
+          g2d.fillOval(x,y,sizeX,sizeY);
+        }
+        g2d.dispose();
     }
 
     public void premove(){
 
-        if (x+sx <= 20||x + sx >=getWidth())
+        if (x+sizeX <= 20||x + sizeX >=getWidth())
         {
             mx=-mx;
             move();
         }
-        if (y+sy >=getHeight())
+        if (y+sizeY >=getHeight())
         {
           my=-my;
           move();
         }
-        if (y+sy <=40) {
+        if (y+sizeY <=40) {
             my=-my;
             move();
         }
         else {
             move();
         }
-
-
     }
 
     public void move(){
-
         x+=mx;
         y+=my;
+    }
+    public void rightMove(){
+        x= x + 5;
+    }
+    public void leftMove(){
+        x= x - 5;
+    }
+    public void topMove(){
+        y= y - 5;
+    }
+    public void bottomMove(){
+        y= y + 5;
+    }
+    public void doCompress() {
+      if(sizeX > 5 && sizeY > 5) {
+        sizeX = sizeX - 5;
+        sizeY = sizeY - 5;
+      }
+    }
+    public void doExtend() {
+      sizeX = sizeX + 5;
+      sizeY = sizeY + 5;
+    }
+    public void doCW() {
+      gradus = gradus + Math.PI/20;
+    }
+    public void doCCW() {
+      gradus = gradus - Math.PI/20;
+    }
+    public void voteCircle() {
+      choice = 2;
+    }
+    public void voteRectangle() {
+      choice = 1;
     }
 }

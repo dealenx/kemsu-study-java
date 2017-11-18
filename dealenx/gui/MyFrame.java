@@ -14,8 +14,8 @@ public class MyFrame extends Frame {
   Panel top = new Panel();
 
   Panel panelVote = new Panel();
-  List selectFigure = new List(2,false);
-  Button butVote = new Button("Vote figure");
+  Button butVoteCircle = new Button("Vote Circle");
+  Button butVoteRectangle = new Button("Vote Rectangle");
 
   Panel panelMove = new Panel();
   Button butTopMove = new Button("To top");
@@ -32,9 +32,6 @@ public class MyFrame extends Frame {
   Button butCCW = new Button("counter-clockwise");
 
   public MyFrame() {
-    selectFigure.add("Circle");
-    selectFigure.add("Triangle");
-    selectFigure.add("Rectangle");
 
     p.setLayout(new BorderLayout());
     top.setLayout(new GridLayout(1,5));
@@ -52,12 +49,20 @@ public class MyFrame extends Frame {
     });
 
     panelVote.setLayout(new GridLayout(2,1));
-    panelVote.add(selectFigure);
-    panelVote.add(butVote);
-
-    butVote.addActionListener(new MyActionListener(this, canvas) {
+    panelVote.add(butVoteCircle);
+    butVoteCircle.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Vote a figure");
+            System.out.println("Vote a figure Circle");
+            canvas.voteCircle();
+            canvas.repaint();
+        }
+    });
+    panelVote.add(butVoteRectangle);
+    butVoteRectangle.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Vote a figure Rect");
+            canvas.voteRectangle();
+            canvas.repaint();
         }
     });
 
@@ -66,20 +71,70 @@ public class MyFrame extends Frame {
     butLeftMove.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
             System.out.println("butLeftMove");
+            canvas.leftMove();
+            canvas.repaint();
         }
     });
-    //butLeftMove.addActionListener( new MyActionListener(this) );
     panelMove.add(butRightMove);
+    butRightMove.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butRightMove");
+            canvas.rightMove();
+            canvas.repaint();
+        }
+    });
     panelMove.add(butTopMove);
+    butTopMove.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butTopMove");
+            canvas.topMove();
+            canvas.repaint();
+        }
+    });
     panelMove.add(butBottomMove);
+    butBottomMove.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butBottomMove");
+            canvas.bottomMove();
+            canvas.repaint();
+        }
+    });
 
     panelSize.setLayout(new GridLayout(2,1));
     panelSize.add(butCompress);
+    butCompress.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butCompress");
+            canvas.doCompress();
+            canvas.repaint();
+        }
+    });
     panelSize.add(butExtend);
+    butExtend.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butExtend");
+            canvas.doExtend();
+            canvas.repaint();
+        }
+    });
 
     panelRotation.setLayout(new GridLayout(2,1));
     panelRotation.add(butCW);
+    butCW.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butCW");
+            canvas.doCW();
+            canvas.repaint();
+        }
+    });
     panelRotation.add(butCCW);
+    butCCW.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("butCCW");
+            canvas.doCCW();
+            canvas.repaint();
+        }
+    });
 
 
     p.add(top, BorderLayout.NORTH);

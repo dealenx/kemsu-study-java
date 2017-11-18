@@ -10,18 +10,17 @@ class  MyThread extends Thread{
         super(name);
         this.canvas= canvas;
     }
-    public synchronized void run(){  //вызвать start в main, он вызывает run
+    public void run(){  //вызвать start в main, он вызывает run
         System.out.println(this);
         boolean f=true;
         while(f) {
             canvas.premove();
-            canvas.repaint();
-
             try {
-                sleep(5);
+                sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            canvas.repaint();
         }
     }
 
