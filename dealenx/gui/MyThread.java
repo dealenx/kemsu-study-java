@@ -5,10 +5,12 @@ import java.awt.event.*;
 
 class  MyThread extends Thread{
     String name;
-    public MyThread(String name){
+    MyCanvas canvas;
+    public MyThread(String name, MyCanvas canvas){
         super(name);
+        this.canvas= canvas;
     }
-    public void run(){  //вызвать start в main, он вызывает run
+    public synchronized void run(){  //вызвать start в main, он вызывает run
         System.out.println(this);
         boolean f=true;
         while(f) {
