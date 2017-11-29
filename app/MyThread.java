@@ -1,8 +1,8 @@
 package app;
 
-class  MyThread2 extends Thread{
+class  MyThread extends Thread{
     String name;
-    public MyThread2(String name){
+    public MyThread(String name){
         super(name);
     }
     public void run(){  //вызвать start в main, он вызывает run
