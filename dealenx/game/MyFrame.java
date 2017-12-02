@@ -8,6 +8,7 @@ public class MyFrame extends Frame {
 
   MyCanvas canvas = new MyCanvas();
   MyThread t1=new MyThread("RollingBall", canvas);
+  PlThread pt = new PlThread ("Stick", canvas);
 
   Panel p = new Panel();
   Panel top = new Panel();
@@ -36,6 +37,13 @@ public class MyFrame extends Frame {
         public void actionPerformed(ActionEvent e) {
             System.out.println("But start");
             t1.start();
+            pt.start();
+        }
+    });
+    butExit.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("But exit");
+            System.exit(0);
         }
     });
 

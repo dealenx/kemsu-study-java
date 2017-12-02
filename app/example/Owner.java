@@ -1,4 +1,4 @@
-package app;
+package app.example;
 
 import java.io.*;
 

@@ -4,106 +4,88 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 
+import dealenx.game.backend.Figure;
+
 
 class MyCanvas extends Canvas {
-    private int x, y, my, mx,sizeX,sizeY;
+    private int x, y, my, mx,sizeX,sizeY, sx,sy;
     private int xp, yp ,sxp, syp;
     public int choice;
     public double gradus;
 
+    Figure ball;
+    Figure platform;
+
 
     public MyCanvas() {
         super();
-        x = 200;
-        y = 50;
-        my = 1;
-        mx = 1;
-        sizeX=50;
-        sizeY=50;
-        choice = 2;
-        gradus = 2*Math.PI;
-        //xp = 150;
-        //yp = 310;
-    }
+        ball = new Figure(1, 1, 50, 50);
+        platform = new Figure( getHeight() - 14, 150, 300, 10);
 
-    public void setBall(int width, int height){
-        x = width/2;
-        y = height/2;
-    }
+        my = 1; //шаг или движение
+        mx = 1; //шаг или движение
 
+        sxp = 300;  //размер платформы
+        syp = 10; //размер платформы
+        xp = 150; //координата платформы
+        yp = getHeight() - 14; //координата платформы
+    }
 
     public void paint(Graphics g) {
         /*g.setColor(Color.orange);
         g.fillOval(x,y,sizeX,sizeY);*/
 
 Graphics2D g2d = (Graphics2D) g.create();
-        g2d.rotate(gradus);
-        //g2d.translate((-1)*y,( -1*(1 + (y/x)))*x);
-        if(choice == 1) {
-          g2d.fillRect(x,y,sizeX,sizeY);
-        } else {
-          g2d.fillOval(x,y,sizeX,sizeY);
-        }
-        g2d.dispose();
+        //g2d.fillRect(x,y,sizeX,sizeY);
+        g.setColor(Color.orange);
+        //g.fillOval(x,y,sizeX,sizeY);
+        g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+        g.setColor(Color.black);
+        g.fillRect(xp,yp, sxp, syp);
     }
 
     public void premove(){
-
-        if (x+sizeX <= 20||x + sizeX >=getWidth())
+        if(ball.getY() + ball.getHeight() >= yp && ball.getY() + ball.getHeight() <= yp+syp && ball.getX()+ball.getWidth() <= xp + sxp && ball.getX()+ball.getWidth() >= xp) {
+            my=-my;
+            move();
+        }
+        if (ball.getX()+ball.getWidth() <= 20||ball.getX() + ball.getWidth() >= getWidth() )
         {
             mx=-mx;
             move();
         }
-        if (y+sizeY >=getHeight())
+        if (ball.getY() + ball.getHeight() >= getHeight())
         {
-          my=-my;
-          move();
+            /*my=0;
+            mx=0;*/
+            my=-my;
+            move();
+            System.out.println("You lose");
+               //System.exit(0);
         }
-        if (y+sizeY <=40) {
+        if (ball.getY() + ball.getHeight() <=40) {
             my=-my;
             move();
         }
         else {
             move();
         }
+
+
     }
 
     public void move(){
-        x+=mx;
-        y+=my;
+        ball.setX(ball.getX() + mx);
+        ball.setY(ball.getY() + my);
     }
-    public void rightMove(){
-        x= x + 5;
+
+    public void movep (){
+        addMouseMotionListener(new MouseAdapter() {
+            public void mouseMoved(MouseEvent e){
+                xp = e.getX() - sxp/2;
+                yp = getHeight() - 14;
+            }
+        });
     }
-    public void leftMove(){
-        x= x - 5;
-    }
-    public void topMove(){
-        y= y - 5;
-    }
-    public void bottomMove(){
-        y= y + 5;
-    }
-    public void doCompress() {
-      if(sizeX > 5 && sizeY > 5) {
-        sizeX = sizeX - 5;
-        sizeY = sizeY - 5;
-      }
-    }
-    public void doExtend() {
-      sizeX = sizeX + 5;
-      sizeY = sizeY + 5;
-    }
-    public void doCW() {
-      gradus = gradus + Math.PI/20;
-    }
-    public void doCCW() {
-      gradus = gradus - Math.PI/20;
-    }
-    public void voteCircle() {
-      choice = 2;
-    }
-    public void voteRectangle() {
-      choice = 1;
-    }
+
 }

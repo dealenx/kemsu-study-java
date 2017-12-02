@@ -1,4 +1,4 @@
-package app;
+package app.example;
 
 class  MyThread extends Thread{
     String name;
