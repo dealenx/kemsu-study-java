@@ -20,7 +20,7 @@ public class MyFrame extends Frame {
   Button butExit= new Button("Exit");
   Label labelStatus = new Label("Hi There!");
 
-  public MyFrame() {
+  public MyFrame(int windowWidth, int windowHeight) {
 
     p.setLayout(new BorderLayout());
     top.setLayout(new GridLayout(1,4));
@@ -48,7 +48,6 @@ public class MyFrame extends Frame {
     });
 
     p.add(top, BorderLayout.NORTH);
-
     p.add(canvas, BorderLayout.CENTER);
     p.add(bottom, BorderLayout.SOUTH);
 
@@ -57,8 +56,8 @@ public class MyFrame extends Frame {
     add(p);
 
     setTitle("MyFirstFrame");
-    setMinimumSize(new Dimension(700, 400));
-    //setSize(500,500);
+    //setMinimumSize(new Dimension(windowWidth, windowHeight));
+    setSize(windowWidth, windowHeight);
     System.out.println("Start app");
     setVisible(true);
     System.out.println("Finish app");

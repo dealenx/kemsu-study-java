@@ -8,44 +8,29 @@ import dealenx.game.backend.Figure;
 
 
 class MyCanvas extends Canvas {
-    private int x, y, my, mx,sizeX,sizeY, sx,sy;
-    private int xp, yp ,sxp, syp;
-    public int choice;
-    public double gradus;
+    private int my, mx;
 
     Figure ball;
     Figure platform;
 
-
     public MyCanvas() {
         super();
         ball = new Figure(1, 1, 50, 50);
-        platform = new Figure( getHeight() - 14, 150, 300, 10);
+        platform = new Figure(150 ,320 - 14, 300, 10);
 
-        my = 1; //шаг или движение
-        mx = 1; //шаг или движение
-
-        sxp = 300;  //размер платформы
-        syp = 10; //размер платформы
-        xp = 150; //координата платформы
-        yp = getHeight() - 14; //координата платформы
+        my = 1; //шаг движения
+        mx = 1; //шаг движения
     }
 
     public void paint(Graphics g) {
-        /*g.setColor(Color.orange);
-        g.fillOval(x,y,sizeX,sizeY);*/
-
-Graphics2D g2d = (Graphics2D) g.create();
-        //g2d.fillRect(x,y,sizeX,sizeY);
         g.setColor(Color.orange);
-        //g.fillOval(x,y,sizeX,sizeY);
         g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
         g.setColor(Color.black);
-        g.fillRect(xp,yp, sxp, syp);
+        g.fillRect(platform.getX(),platform.getY(), platform.getWidth(), platform.getHeight() );
     }
 
     public void premove(){
-        if(ball.getY() + ball.getHeight() >= yp && ball.getY() + ball.getHeight() <= yp+syp && ball.getX()+ball.getWidth() <= xp + sxp && ball.getX()+ball.getWidth() >= xp) {
+        if(ball.getY() + ball.getHeight() >= platform.getY() && ball.getY() + ball.getHeight() <= platform.getY()+ platform.getHeight() && ball.getX()+ball.getWidth() <= platform.getX()  +  platform.getWidth() && ball.getX()+ball.getWidth() >= platform.getX() ) {
             my=-my;
             move();
         }
@@ -56,8 +41,6 @@ Graphics2D g2d = (Graphics2D) g.create();
         }
         if (ball.getY() + ball.getHeight() >= getHeight())
         {
-            /*my=0;
-            mx=0;*/
             my=-my;
             move();
             System.out.println("You lose");
@@ -70,8 +53,6 @@ Graphics2D g2d = (Graphics2D) g.create();
         else {
             move();
         }
-
-
     }
 
     public void move(){
@@ -82,8 +63,8 @@ Graphics2D g2d = (Graphics2D) g.create();
     public void movep (){
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e){
-                xp = e.getX() - sxp/2;
-                yp = getHeight() - 14;
+                platform.setX(e.getX() - platform.getWidth()/2);
+                platform.setY(getHeight() - 14);
             }
         });
     }
