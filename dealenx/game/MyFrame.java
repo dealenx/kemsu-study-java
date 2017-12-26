@@ -2,13 +2,14 @@ package dealenx.game;
 
 import java.awt.*;
 import java.awt.event.*;
-
+import dealenx.game.backend.*;
 
 public class MyFrame extends Frame {
-  Physic physic = new Physic();
-  MyCanvas canvas = new MyCanvas();
-  MyThread t1=new MyThread("RollingBall", canvas);
-  PlThread pt = new PlThread ("Stick", canvas);
+
+  MyCanvas canvas;
+  MyThread t1;
+  PlThread pt;
+  Physic physic;
 
 
   Panel p = new Panel();
@@ -21,7 +22,11 @@ public class MyFrame extends Frame {
   Button butExit= new Button("Exit");
   Label labelStatus = new Label("Hi There!");
 
-  public MyFrame(int windowWidth, int windowHeight) {
+  public MyFrame() {
+    physic = new Physic(1000,600);
+    canvas = new MyCanvas(physic);
+    t1=new MyThread("RollingBall", physic, canvas);
+    pt = new PlThread ("Stick", physic, canvas);
 
     p.setLayout(new BorderLayout());
     top.setLayout(new GridLayout(1,4));
@@ -57,8 +62,7 @@ public class MyFrame extends Frame {
     add(p);
 
     setTitle("MyFirstFrame");
-    //setMinimumSize(new Dimension(windowWidth, windowHeight));
-    setSize(windowWidth, windowHeight);
+    setSize(physic.getWidthWindow(), physic.getHeightWindow());
     System.out.println("Start app");
     setVisible(true);
     System.out.println("Finish app");

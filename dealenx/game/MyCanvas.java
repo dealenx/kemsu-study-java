@@ -4,28 +4,30 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 
-import dealenx.game.backend.Figure;
+import dealenx.game.backend.*;
 
 
 class MyCanvas extends Canvas {
-    public MyCanvas() {
+    Physic physic;
+
+    public MyCanvas(Physic physic) {
         super();
+        this.physic= physic;
     }
 
     public void paint(Graphics g) {
         g.setColor(Color.orange);
-        g.fillOval(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
+        g.fillOval(physic.getXBall(), physic.getYBall(), physic.getWidthBall(), physic.getHeightBall());
         g.setColor(Color.black);
-        g.fillRect(platform.getX(),platform.getY(), platform.getWidth(), platform.getHeight() );
+        g.fillRect(physic.getXPlatform(), physic.getYPlatform(), physic.getWidthPlatform(), physic.getHeightPlatform() );
     }
 
     public void movep (){
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e){
-                platform.setX(e.getX() - platform.getWidth()/2);
-                platform.setY(getHeight() - 14);
+                physic.setXPlatform(e.getX() - physic.getWidthPlatform()/2);
+                physic.setYPlatform(getHeight() - 14);
             }
         });
     }
-
 }
