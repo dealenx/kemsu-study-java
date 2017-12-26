@@ -9,8 +9,6 @@ import dealenx.game.backend.*;
 public class GameApp {
 
 	public static void main(String[] args) {
-
 		MyFrame f = new MyFrame(1000, 600);
-		Physic world;
 	}
 }

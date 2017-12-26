@@ -16,8 +16,6 @@ class  PlThread extends Thread{
         boolean f=true;
         while(f) {
             canvas.movep();
-
-
             try {
                 sleep(1);
             } catch (InterruptedException e) {
