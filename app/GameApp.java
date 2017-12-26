@@ -8,7 +8,7 @@ import dealenx.game.backend.*;
 
 public class GameApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		MyFrame f = new MyFrame();
 	}
 }

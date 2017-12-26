@@ -4,11 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import dealenx.game.backend.*;
 
-public class MyFrame extends Frame {
+public class MyFrame extends Frame{
 
   MyCanvas canvas;
   MyThread t1;
-  PlThread pt;
+  MyThread pt;
   Physic physic;
 
 
@@ -25,8 +25,8 @@ public class MyFrame extends Frame {
   public MyFrame() {
     physic = new Physic(1000,600);
     canvas = new MyCanvas(physic);
-    t1=new MyThread("RollingBall", physic, canvas);
-    pt = new PlThread ("Stick", physic, canvas);
+    t1 = new MyThread("Ball", physic, canvas);
+    pt = new MyThread("Platform", physic, canvas);
 
     p.setLayout(new BorderLayout());
     top.setLayout(new GridLayout(1,4));
@@ -42,8 +42,8 @@ public class MyFrame extends Frame {
     butStart.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
             System.out.println("But start");
-            t1.start();
-            pt.start();
+            t1.resume();
+            pt.resume();
         }
     });
     butExit.addActionListener(new MyActionListener(this, canvas) {

@@ -1,7 +1,6 @@
 package dealenx.game.backend;
 
-
-public class Physic {
+public class Physic{
 	private int my, mx;
 	Figure ball;
 	Figure platform;
