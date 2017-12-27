@@ -1,7 +1,8 @@
 package dealenx.game.backend;
 
+import java.io.*;
 
-public class Figure {
+public class Figure implements Serializable{
 
 	private int width;
 	private int height;

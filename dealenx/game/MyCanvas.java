@@ -25,8 +25,7 @@ class MyCanvas extends Canvas {
     public void movep (){
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e){
-                physic.setXPlatform(e.getX() - physic.getWidthPlatform()/2);
-                physic.setYPlatform(getHeight() - 14);
+                physic.movementPlatform(e.getX(), e.getY(), getHeight(), getHeight());
             }
         });
     }

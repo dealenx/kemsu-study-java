@@ -5,19 +5,19 @@ import java.awt.event.*;
 import dealenx.game.backend.*;
 
 class  MyThread  implements Runnable{
-  String name;
-  MyCanvas canvas;
-  Physic physic;
-  Thread thrd;
-  boolean suspended;
-  boolean stopped;
+  private String name;
+  private MyCanvas canvas;
+  private Physic physic;
+  private Thread thrd;
+  private boolean suspended;
+  private boolean stopped;
 
     public MyThread(String name, Physic physic, MyCanvas canvas){
       this.name = name;
       this.canvas= canvas;
       this.physic= physic;
       thrd = new Thread(this, name);
-      suspended = true;
+      suspended = false;
       stopped = false;
       thrd.start();
     }
@@ -28,15 +28,17 @@ class  MyThread  implements Runnable{
         while(f) {
 
             try {
-                physic.premove();
+
                 Thread.sleep(1);
                 synchronized (this) {
+                  canvas.repaint();
+                  physic.premove();
                   while (suspended)
                     wait();
                   if (stopped)
                     break;
                 }
-                canvas.repaint();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -45,16 +47,17 @@ class  MyThread  implements Runnable{
         if(this.name == "Platform") {
           while(f) {
               try {
-                canvas.movep();
-
+                  canvas.repaint();
+                  canvas.movep();
                   Thread.sleep(1);
+
                   synchronized (this) {
                     while (suspended)
                       wait();
                     if (stopped)
                       break;
                   }
-                  canvas.repaint();
+
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }

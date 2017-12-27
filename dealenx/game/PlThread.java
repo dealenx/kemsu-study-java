@@ -4,40 +4,42 @@ import java.awt.*;
 import java.awt.event.*;
 import dealenx.game.backend.*;
 
-
 class  PlThread  implements Runnable{
-    String name;
-    MyCanvas canvas;
-    Physic physic;
-    Thread thrd;
-    boolean suspended;
-    boolean stopped;
+  private String name;
+  private MyCanvas canvas;
+  private Physic physic;
+  private Thread thrd;
+  private boolean suspended;
+  private boolean stopped;
 
     public PlThread(String name, Physic physic, MyCanvas canvas){
-        this.name = name;
-        this.canvas= canvas;
-        this.physic= physic;
-        thrd = new Thread(this, name);
-        suspended = false;
-        stopped = false;
-        thrd.start();
+      this.name = name;
+      this.canvas= canvas;
+      this.physic= physic;
+      thrd = new Thread(this, name);
+      suspended = true;
+      stopped = false;
+      thrd.start();
     }
     public synchronized void run(){
         System.out.println(this);
         boolean f=true;
+
         if(this.name == "Platform") {
           while(f) {
               try {
-                canvas.movep();
 
                   Thread.sleep(1);
+
                   synchronized (this) {
+                    canvas.repaint();
+                    canvas.movep();
                     while (suspended)
-                      wait();
+                      pauseLock.wait();
                     if (stopped)
                       break;
                   }
-                  canvas.repaint();
+
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }

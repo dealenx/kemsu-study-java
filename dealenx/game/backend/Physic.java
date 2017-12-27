@@ -1,7 +1,9 @@
 package dealenx.game.backend;
 
-public class Physic{
-	private int my, mx;
+import java.io.*;
+
+public class Physic implements Serializable{
+	private int my = 1, mx = 1, myTemp, mxTemp;;
 	Figure ball;
 	Figure platform;
 	private int height;
@@ -15,9 +17,20 @@ public class Physic{
 
 		setWidthWindow(width);
 		setHeightWindow(height);
-		my = 1; //шаг движения
-		mx = 1; //шаг движения
+		pause();
 		System.out.println("created physic");
+	}
+	public void pause() {
+		myTemp = my;
+		mxTemp = mx;
+		my = 0; //шаг движения
+		mx = 0; //шаг движения
+		System.out.println("physic.pause()");
+	}
+	public void resume() {
+		my = myTemp; //шаг движения
+		mx = mxTemp; //шаг движения
+		System.out.println("physic.resume()");
 	}
 	public int getWidthWindow() {
 		return this.width;
@@ -81,6 +94,11 @@ public class Physic{
 	}
 	public void setYPlatform(int y) {
 		platform.setY(y);
+	}
+	public void movementPlatform(int mouseX, int mouseY, int windowWidth, int windowHeight) {
+		setXPlatform(mouseX - getWidthPlatform()/2);
+		setYPlatform(windowHeight - 14);
+
 	}
 
 	public void premove(){

@@ -1,29 +1,34 @@
 package dealenx.game;
 
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import dealenx.game.backend.*;
 
-public class MyFrame extends Frame{
+public class MyFrame extends Frame {
 
-  MyCanvas canvas;
-  MyThread t1;
-  MyThread pt;
-  Physic physic;
+  private MyCanvas canvas;
+  private MyThread t1;
+  private MyThread pt;
+  private Physic physic;
+  //private Physic physic2;
 
+  private boolean pause;
 
-  Panel p = new Panel();
-  Panel top = new Panel();
-  Panel bottom = new Panel();
+  private Panel p = new Panel();
+  private Panel top = new Panel();
+  private Panel bottom = new Panel();
 
-  Button butStart= new Button("Start");
-  Button butSave= new Button("Save");
-  Button butLoad= new Button("Load");
-  Button butExit= new Button("Exit");
-  Label labelStatus = new Label("Hi There!");
+  private Button butStart= new Button("Start");
+  private Button butSave= new Button("Save");
+  private Button butLoad= new Button("Load");
+  private Button butExit= new Button("Exit");
+  private Label labelStatus = new Label("Hi There!");
 
   public MyFrame() {
+    pause = true;
     physic = new Physic(1000,600);
+    //physic2 = new Physic(1000,600);
     canvas = new MyCanvas(physic);
     t1 = new MyThread("Ball", physic, canvas);
     pt = new MyThread("Platform", physic, canvas);
@@ -41,15 +46,40 @@ public class MyFrame extends Frame{
 
     butStart.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
-            System.out.println("But start");
-            t1.resume();
-            pt.resume();
+
+            if(pause) {
+              System.out.println("But start");
+              physic.resume();
+              butStart.setLabel("Pause");
+              pause = false;
+            } else {
+              System.out.println("But pause");
+              physic.pause();
+              butStart.setLabel("Start");
+              pause = true;
+            }
+
         }
     });
     butExit.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
             System.out.println("But exit");
             System.exit(0);
+        }
+    });
+    butLoad.addActionListener(new MyActionListener(this, canvas) {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("But load");
+            loadData();
+            /*physic.setXBall(1);
+            physic.setYBall(1);*/
+        }
+    });
+    butSave.addActionListener(new MyActionListener(this, canvas)  {
+        public void actionPerformed(ActionEvent e)  {
+            System.out.println("But save");
+            saveData();
+
         }
     });
 
@@ -63,9 +93,42 @@ public class MyFrame extends Frame{
 
     setTitle("MyFirstFrame");
     setSize(physic.getWidthWindow(), physic.getHeightWindow());
+    setResizable(false);
     System.out.println("Start app");
     setVisible(true);
     System.out.println("Finish app");
+  }
+  public void pause() {
+    physic.pause();
+  }
+  public void resume() {
+    physic.resume();
+  }
+  public void saveData() {
+    try {
+      Object objSave = physic;
+
+      File f= new File("./data/game.dat");
+      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
+      out.writeObject(objSave);
+      out.close();
+    } catch(IOException er) {
+      System.out.println("Error save physic");
+    }
+  }
+  public void loadData() {
+    try {
+			File f= new File("./data/game.dat");
+      Physic loadphysic;
+
+      ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
+      loadphysic = (Physic)in.readObject();
+      physic.setXBall( loadphysic.getXBall() );
+      physic.setYBall( loadphysic.getYBall() );
+      in.close();
+		} catch(Exception IOException) {
+			System.out.println("Error load");
+		}
   }
 
 }
