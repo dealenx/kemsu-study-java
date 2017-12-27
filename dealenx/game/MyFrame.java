@@ -14,6 +14,8 @@ public class MyFrame extends Frame {
   //private Physic physic2;
 
   private boolean pause;
+  private boolean lose;
+
 
   private Panel p = new Panel();
   private Panel top = new Panel();
@@ -27,11 +29,13 @@ public class MyFrame extends Frame {
 
   public MyFrame() {
     pause = true;
+    lose = false;
     physic = new Physic(1000,600);
+
     //physic2 = new Physic(1000,600);
     canvas = new MyCanvas(physic);
-    t1 = new MyThread("Ball", physic, canvas);
-    pt = new MyThread("Platform", physic, canvas);
+    t1 = new MyThread("Ball", physic, canvas, this);
+    pt = new MyThread("Platform", physic, canvas, this);
 
     p.setLayout(new BorderLayout());
     top.setLayout(new GridLayout(1,4));
@@ -129,6 +133,19 @@ public class MyFrame extends Frame {
 		} catch(Exception IOException) {
 			System.out.println("Error load");
 		}
+  }
+  public void loseGame() {
+    labelStatus.setText("You lose");
+    butStart.setLabel("Start New Game");
+    pause();
+    System.exit(0);
+  }
+  public void setStatus(boolean status) {
+    lose = status;
+
+    if(lose) {
+      loseGame();
+    }
   }
 
 }

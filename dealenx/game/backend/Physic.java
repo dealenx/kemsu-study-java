@@ -3,20 +3,34 @@ package dealenx.game.backend;
 import java.io.*;
 
 public class Physic implements Serializable{
-	private int my = 1, mx = 1, myTemp, mxTemp;;
+	private int my, mx, myTemp, mxTemp;
 	Figure ball;
 	Figure platform;
 	private int height;
 	private int width;
+	private boolean lose;
 
 
 
 	public Physic(int width, int height) {
-		ball = new Figure(1, 1, 50, 50);
-		platform = new Figure(150 ,320 - 14, 300, 10);
-
+		ball = new Figure();
+		platform = new Figure();
 		setWidthWindow(width);
 		setHeightWindow(height);
+		setWidthBall(50);
+		setHeightBall(50);
+		setWidthPlatform(300);
+		setHeightPlatform(10);
+		init(getWidthWindow(), getHeightWindow());
+	}
+	private void init(int width, int height) {
+		my = 1;
+		mx = 1;
+		setXBall(1);
+		setYBall(1);
+		setXPlatform(150);
+		setYPlatform(width - 14);
+		lose = false;
 		pause();
 		System.out.println("created physic");
 	}
@@ -26,6 +40,22 @@ public class Physic implements Serializable{
 		my = 0; //шаг движения
 		mx = 0; //шаг движения
 		System.out.println("physic.pause()");
+	}
+	public void lose() {
+		myTemp = 0;
+		mxTemp = 0;
+		my = 0; //шаг движения
+		mx = 0; //шаг движения
+		lose = true;
+		System.out.println("physic.lose()");
+		pause();
+	}
+	public void newGame() {
+		init(getWidthWindow(), getHeightWindow());
+		System.out.println("physic.newGame()");
+	}
+	public boolean getStatus() {
+		return lose;
 	}
 	public void resume() {
 		my = myTemp; //шаг движения
@@ -115,6 +145,7 @@ public class Physic implements Serializable{
 			{
 					my=-my;
 					move();
+					lose();
 					System.out.println("You lose");
 						 //System.exit(0);
 			}

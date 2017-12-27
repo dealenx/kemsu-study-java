@@ -3,17 +3,20 @@ package dealenx.game;
 import java.awt.*;
 import java.awt.event.*;
 import dealenx.game.backend.*;
+import dealenx.game.backend.*;
 
 class  MyThread  implements Runnable{
   private String name;
   private MyCanvas canvas;
   private Physic physic;
+  private MyFrame frame;
   private Thread thrd;
   private boolean suspended;
   private boolean stopped;
 
-    public MyThread(String name, Physic physic, MyCanvas canvas){
+    public MyThread(String name, Physic physic, MyCanvas canvas, MyFrame frame){
       this.name = name;
+      this.frame = frame;
       this.canvas= canvas;
       this.physic= physic;
       thrd = new Thread(this, name);
@@ -23,9 +26,8 @@ class  MyThread  implements Runnable{
     }
     public synchronized void run(){
         System.out.println(this);
-        boolean f=true;
         if(this.name == "Ball") {
-        while(f) {
+        while(true) {
 
             try {
 
@@ -33,6 +35,8 @@ class  MyThread  implements Runnable{
                 synchronized (this) {
                   canvas.repaint();
                   physic.premove();
+                  frame.setStatus(physic.getStatus());
+
                   while (suspended)
                     wait();
                   if (stopped)
@@ -45,7 +49,7 @@ class  MyThread  implements Runnable{
           }
         }
         if(this.name == "Platform") {
-          while(f) {
+          while(true) {
               try {
                   canvas.repaint();
                   canvas.movep();
