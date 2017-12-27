@@ -1,36 +1,41 @@
 package app;
 
-import java.net.*;
 import java.io.*;
-public class ServerGameApp {
-   public static void main(String[] ar)    {
-     int port = 6666; // случайный порт (может быть любое число от 1025 до 65535)
-       try {
-         ServerSocket ss = new ServerSocket(port); // создаем сокет сервера и привязываем его к вышеуказанному порту
-         System.out.println("Waiting for a client...");
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import dealenx.gameserver.*;
+	public class ServerGameApp {
+	private ServerSocket serverSocket = null;
+	private Socket socket = null;
+	private ObjectInputStream inStream = null;
 
-         Socket socket = ss.accept(); // заставляем сервер ждать подключений и выводим сообщение когда кто-то связался с сервером
-         System.out.println("Got a client :) ... Finally, someone saw me through all the cover!");
-         System.out.println();
+	public ServerGameApp() {
 
- // Берем входной и выходной потоки сокета, теперь можем получать и отсылать данные клиенту.
-         InputStream sin = socket.getInputStream();
-         OutputStream sout = socket.getOutputStream();
+	}
 
- // Конвертируем потоки в другой тип, чтоб легче обрабатывать текстовые сообщения.
-         DataInputStream in = new DataInputStream(sin);
-         DataOutputStream out = new DataOutputStream(sout);
+	public void communicate() {
+		try {
+			serverSocket = new ServerSocket(4445);
+			socket = serverSocket.accept();
+			System.out.println("Connected");
+			inStream = new ObjectInputStream(socket.getInputStream());
 
-         String line = null;
-         while(true) {
-           line = in.readUTF(); // ожидаем пока клиент пришлет строку текста.
-           System.out.println("The dumb client just sent me this line : " + line);
-           System.out.println("I'm sending it back...");
-           out.writeUTF(line); // отсылаем клиенту обратно ту самую строку текста.
-           out.flush(); // заставляем поток закончить передачу данных.
-           System.out.println("Waiting for the next line...");
-           System.out.println();
-         }
-      } catch(Exception x) { x.printStackTrace(); }
-   }
+			Student student = (Student) inStream.readObject();
+			/*System.out.println("Object received = " + student);*/
+			socket.close();
+
+		} catch (SocketException se) {
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException cn) {
+			cn.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		ServerGameApp server = new ServerGameApp();
+		server.communicate();
+	}
 }
