@@ -21,7 +21,7 @@ getOutputStream ();
 
 int a=in.read();
 System.out.println(a);
-out.write(1); in.close(); out.close(); s.close(); ss.close();
+out.write(1); in.close(); out.close(); s.close(); //ss.close();
 } catch (IOException ex) {
 	System.out.println(1);
 }
