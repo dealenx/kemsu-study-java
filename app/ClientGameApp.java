@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import dealenx.gameserver.*;
+//import dealenx.gameserver.client.*;
 
 public class ClientGameApp {
 	private Socket socket = null;
@@ -24,15 +25,19 @@ public class ClientGameApp {
 				isConnected = true;
 
 				outputStream = new ObjectOutputStream(socket.getOutputStream());
-				Message message1 = new Message(1, "Bijoy");
-				/*System.out.println("Object to be written = " + message2);*/
-				outputStream.writeObject(message1);
-
 				inputStream = new ObjectInputStream(socket.getInputStream());
-				Message message2 = (Message) inputStream.readObject();
+				Message message1;
+				Message message2;
+				message1 = new Message(1, "Bijoy");
+				/*System.out.println("Object to be written = " + message2);*/
+				//while(true) {
 
+					outputStream.writeObject(message1);
+					message2 = (Message) inputStream.readObject();
 
-				System.out.println("Object received = " + message2);
+					System.out.println("Object received = " + message2);
+				//}
+
 
 			} catch (SocketException se) {
 				se.printStackTrace();

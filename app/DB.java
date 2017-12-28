@@ -19,11 +19,10 @@ class DB
 			System.out.println("Getting connection...");
             Connection con = DriverManager.getConnection(url, login, password);
 			System.out.println("OK");
-            try
-			{
+            try {
                 Statement stmt = con.createStatement();
 				//ResultSet rs = stmt.executeQuery("SELECT * FROM pg_class");
-				ResultSet rs = stmt.executeQuery("SELECT * FROM \"students\"");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM \"students\" where id = 1");
                 while (rs.next()) {
                     //String str = rs.getString("relname") + " " + rs.getString("reltype");
 					String str = rs.getString("id") + " " + rs.getString("name");
