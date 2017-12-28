@@ -1,7 +1,6 @@
 package app;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import dealenx.gameserver.*;
@@ -23,16 +22,21 @@ public class ClientGameApp {
 				socket = new Socket("localHost", 4445);
 				System.out.println("Connected");
 				isConnected = true;
-				outputStream = new ObjectOutputStream(socket.getOutputStream());
-				Student student = new Student(1, "Bijoy");
-				System.out.println("Object to be written = " + student);
-				outputStream.writeObject(student);
+
+				inputStream = new ObjectInputStream(socket.getInputStream());
+
+				Message message = (Message) inputStream.readObject();
+
+
+				System.out.println("Object received = " + message);
 
 			} catch (SocketException se) {
 				se.printStackTrace();
-				// System.exit(0);
+			// System.exit(0);
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (ClassNotFoundException cn) {
+				cn.printStackTrace();
 			}
 		}
 	}
