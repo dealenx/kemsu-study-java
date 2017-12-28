@@ -23,12 +23,16 @@ public class ClientGameApp {
 				System.out.println("Connected");
 				isConnected = true;
 
+				outputStream = new ObjectOutputStream(socket.getOutputStream());
+				Message message1 = new Message(1, "Bijoy");
+				/*System.out.println("Object to be written = " + message2);*/
+				outputStream.writeObject(message1);
+
 				inputStream = new ObjectInputStream(socket.getInputStream());
+				Message message2 = (Message) inputStream.readObject();
 
-				Message message = (Message) inputStream.readObject();
 
-
-				System.out.println("Object received = " + message);
+				System.out.println("Object received = " + message2);
 
 			} catch (SocketException se) {
 				se.printStackTrace();

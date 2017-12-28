@@ -20,10 +20,14 @@ import dealenx.gameserver.*;
 			serverSocket = new ServerSocket(4445);
 			socket = serverSocket.accept();
 			System.out.println("Connected");
+			inputStream = new ObjectInputStream(socket.getInputStream());
+			Message message1 = (Message) inputStream.readObject();
+			System.out.println("Object received = " + message1);
+
 			outputStream = new ObjectOutputStream(socket.getOutputStream());
-			Message message = new Message(1, "Bijoy");
-			/*System.out.println("Object to be written = " + message);*/
-			outputStream.writeObject(message);
+			Message message2 = new Message(2, "Bijoy");
+			/*System.out.println("Object to be written = " + message2);*/
+			outputStream.writeObject(message2);
 
 			socket.close();
 
@@ -31,9 +35,9 @@ import dealenx.gameserver.*;
 			System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} /*catch (ClassNotFoundException cn) {
+		} catch (ClassNotFoundException cn) {
 			cn.printStackTrace();
-		}*/
+		}
 	}
 
 		public static void main(String[] args) {
