@@ -3,7 +3,7 @@ package dealenx.gameserver;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-import dealenx.gameserver.backend.*;
+import dealenx.game.backend.*;
 
 public class MyFrame extends Frame {
 

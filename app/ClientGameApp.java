@@ -3,8 +3,7 @@ import java.io.IOException;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import dealenx.gameserver.*;
-//import dealenx.gameserver.client.*;
+import dealenx.gameserver.backend.*;
 
 public class ClientGameApp {
 	private Socket socket = null;
@@ -26,16 +25,16 @@ public class ClientGameApp {
 
 				outputStream = new ObjectOutputStream(socket.getOutputStream());
 				inputStream = new ObjectInputStream(socket.getInputStream());
-				Message message1;
-				Message message2;
-				message1 = new Message(1, "Bijoy");
+				Physic message1;
+				Physic message2;
+				message1 = new Physic(600, 1000);
 				/*System.out.println("Object to be written = " + message2);*/
 				//while(true) {
 
 					outputStream.writeObject(message1);
-					message2 = (Message) inputStream.readObject();
+					message2 = (Physic) inputStream.readObject();
 
-					System.out.println("Object received = " + message2);
+					System.out.println("Object received = " + message2.getXBall());
 				//}
 
 

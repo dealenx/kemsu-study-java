@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import dealenx.gameserver.*;
-import dealenx.gameserver.server.*;
+import dealenx.gameserver.backend.*;
 
 public class ServerGameApp {
 	private ServerSocket serverSocket = null;
@@ -26,8 +26,8 @@ public class ServerGameApp {
 			inputStream = new ObjectInputStream(socket.getInputStream());
 			outputStream = new ObjectOutputStream(socket.getOutputStream());
 
-			Message message1 = (Message) inputStream.readObject();
-			System.out.println("Object received = " + message1);
+			Physic message1 = (Physic) inputStream.readObject();
+			System.out.println("Object received = " + message1.getXBall());
 			int id_mes;
 			String name_mes;
 
@@ -50,9 +50,9 @@ public class ServerGameApp {
                 while (rs.next()) {
                     //String str = rs.getString("relname") + " " + rs.getString("reltype");
 					String str = rs.getString("id") + " " + rs.getString("name");
-					
+
                     System.out.println(str);
-								Message message2 = new Message(Integer.parseInt(rs.getString("id")),  rs.getString("name"));
+								Physic message2 = new Physic(1000,  600);
 								outputStream.writeObject(message2);
                 }
 

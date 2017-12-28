@@ -33,8 +33,9 @@ class  MyThread  implements Runnable{
 
                 Thread.sleep(1);
                 synchronized (this) {
-                  canvas.repaint();
                   physic.premove();
+                  canvas.repaint();
+
                   frame.setStatus(physic.getStatus());
 
                   while (suspended)
