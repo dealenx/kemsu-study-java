@@ -25,17 +25,11 @@ public class ClientGameApp {
 
 				outputStream = new ObjectOutputStream(socket.getOutputStream());
 				inputStream = new ObjectInputStream(socket.getInputStream());
-				Physic message1;
 				Physic message2;
-				message1 = new Physic(600, 1000);
-				/*System.out.println("Object to be written = " + message2);*/
-				//while(true) {
 
-					outputStream.writeObject(message1);
 					message2 = (Physic) inputStream.readObject();
 
-					System.out.println("Object received = " + message2.getXBall());
-				//}
+					System.out.println("Object received = " + message2.getYBall());
 
 
 			} catch (SocketException se) {

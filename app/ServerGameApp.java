@@ -23,14 +23,12 @@ public class ServerGameApp {
 			serverSocket = new ServerSocket(4445);
 			socket = serverSocket.accept();
 			System.out.println("Connected");
-			inputStream = new ObjectInputStream(socket.getInputStream());
 			outputStream = new ObjectOutputStream(socket.getOutputStream());
 
-			Physic message1 = (Physic) inputStream.readObject();
-			System.out.println("Object received = " + message1.getXBall());
-			int id_mes;
+			int x_mes;
+			int y_mes;
 			String name_mes;
-
+			Physic message2 = new Physic(1000,  600);
 
 
 
@@ -46,16 +44,14 @@ public class ServerGameApp {
             try {
                 Statement stmt = con.createStatement();
 				//ResultSet rs = stmt.executeQuery("SELECT * FROM pg_class");
-				ResultSet rs = stmt.executeQuery("SELECT * FROM \"students\" where id = 1");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM \"game\" where id = 1");
                 while (rs.next()) {
                     //String str = rs.getString("relname") + " " + rs.getString("reltype");
-					String str = rs.getString("id") + " " + rs.getString("name");
-
-                    System.out.println(str);
-								Physic message2 = new Physic(1000,  600);
-								outputStream.writeObject(message2);
+						message2.setXBall(Integer.parseInt(rs.getString("x")));
+						message2.setYBall(Integer.parseInt(rs.getString("y")));
                 }
 
+								outputStream.writeObject(message2);
 
                 rs.close();
                 stmt.close();
@@ -68,8 +64,6 @@ public class ServerGameApp {
 			System.exit(0);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException cn) {
-			cn.printStackTrace();
 		} catch (Exception e){
       e.printStackTrace();
     }

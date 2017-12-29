@@ -109,16 +109,36 @@ public class MyFrame extends Frame {
     physic.resume();
   }
   public void saveData() {
-    try {
-      Object objSave = physic;
+    while (!isConnected) {
+			try {
+				socket = new Socket("localHost", 4445);
+				System.out.println("Connected");
+				isConnected = true;
 
-      File f= new File("./data/game.dat");
-      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));
-      out.writeObject(objSave);
-      out.close();
-    } catch(IOException er) {
-      System.out.println("Error save physic");
-    }
+				outputStream = new ObjectOutputStream(socket.getOutputStream());
+				inputStream = new ObjectInputStream(socket.getInputStream());
+				Physic message1;
+				Physic message2;
+				message1 = new Physic(600, 1000);
+				/*System.out.println("Object to be written = " + message2);*/
+				//while(true) {
+
+					outputStream.writeObject(message1);
+					message2 = (Physic) inputStream.readObject();
+
+					System.out.println("Object received = " + message2.getXBall());
+				//}
+
+
+			} catch (SocketException se) {
+				se.printStackTrace();
+			// System.exit(0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException cn) {
+				cn.printStackTrace();
+			}
+		}
   }
   public void loadData() {
     try {
