@@ -30,8 +30,6 @@ public class ServerGameApp {
 			String name_mes;
 			Physic message2 = new Physic(1000,  600);
 
-
-
 			DriverManager.registerDriver(new org.postgresql.Driver());
             //Class.forName("org.postgresql.Driver");
 

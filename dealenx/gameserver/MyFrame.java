@@ -1,9 +1,12 @@
 package dealenx.gameserver;
 
+import java.io.IOException;
 import java.io.*;
+import java.net.Socket;
+import java.net.SocketException;
 import java.awt.*;
 import java.awt.event.*;
-import dealenx.game.backend.*;
+import dealenx.gameserver.backend.*;
 
 public class MyFrame extends Frame {
 
@@ -11,7 +14,6 @@ public class MyFrame extends Frame {
   private MyThread t1;
   private MyThread pt;
   private Physic physic;
-  //private Physic physic2;
 
   private boolean pause;
   private boolean lose;
@@ -22,25 +24,27 @@ public class MyFrame extends Frame {
   private Panel bottom = new Panel();
 
   private Button butStart= new Button("Start");
-  private Button butSave= new Button("Save");
   private Button butLoad= new Button("Load");
   private Button butExit= new Button("Exit");
   private Label labelStatus = new Label("Hi There!");
+
+  private Socket socket = null;
+	private ObjectInputStream inputStream = null;
+	private ObjectOutputStream outputStream = null;
+	private boolean isConnected = false;
 
   public MyFrame() {
     pause = true;
     lose = false;
     physic = new Physic(1000,600);
 
-    //physic2 = new Physic(1000,600);
     canvas = new MyCanvas(physic);
     t1 = new MyThread("Ball", physic, canvas, this);
     pt = new MyThread("Platform", physic, canvas, this);
 
     p.setLayout(new BorderLayout());
-    top.setLayout(new GridLayout(1,4));
+    top.setLayout(new GridLayout(1,3));
     top.add(butStart);
-    top.add(butSave);
     top.add(butLoad);
     top.add(butExit);
     bottom.setBackground(Color.gray);
@@ -74,19 +78,11 @@ public class MyFrame extends Frame {
     butLoad.addActionListener(new MyActionListener(this, canvas) {
         public void actionPerformed(ActionEvent e) {
             System.out.println("But load");
-            loadData();
+            communicate();
             /*physic.setXBall(1);
             physic.setYBall(1);*/
         }
     });
-    butSave.addActionListener(new MyActionListener(this, canvas)  {
-        public void actionPerformed(ActionEvent e)  {
-            System.out.println("But save");
-            saveData();
-
-        }
-    });
-
     p.add(top, BorderLayout.NORTH);
     p.add(canvas, BorderLayout.CENTER);
     p.add(bottom, BorderLayout.SOUTH);
@@ -108,8 +104,9 @@ public class MyFrame extends Frame {
   public void resume() {
     physic.resume();
   }
-  public void saveData() {
-    while (!isConnected) {
+  public void communicate() {
+
+		while (!isConnected) {
 			try {
 				socket = new Socket("localHost", 4445);
 				System.out.println("Connected");
@@ -117,17 +114,13 @@ public class MyFrame extends Frame {
 
 				outputStream = new ObjectOutputStream(socket.getOutputStream());
 				inputStream = new ObjectInputStream(socket.getInputStream());
-				Physic message1;
 				Physic message2;
-				message1 = new Physic(600, 1000);
-				/*System.out.println("Object to be written = " + message2);*/
-				//while(true) {
 
-					outputStream.writeObject(message1);
 					message2 = (Physic) inputStream.readObject();
 
-					System.out.println("Object received = " + message2.getXBall());
-				//}
+					System.out.println("Object y = " + message2.getYBall() + "x = " + message2.getXBall());
+          physic.setXBall(message2.getXBall());
+          physic.setYBall(message2.getYBall());
 
 
 			} catch (SocketException se) {
@@ -139,21 +132,7 @@ public class MyFrame extends Frame {
 				cn.printStackTrace();
 			}
 		}
-  }
-  public void loadData() {
-    try {
-			File f= new File("./data/game.dat");
-      Physic loadphysic;
-
-      ObjectInputStream in = new ObjectInputStream(new FileInputStream(f));
-      loadphysic = (Physic)in.readObject();
-      physic.setXBall( loadphysic.getXBall() );
-      physic.setYBall( loadphysic.getYBall() );
-      in.close();
-		} catch(Exception IOException) {
-			System.out.println("Error load");
-		}
-  }
+	}
   public void loseGame() {
     labelStatus.setText("You lose");
     butStart.setLabel("Start New Game");

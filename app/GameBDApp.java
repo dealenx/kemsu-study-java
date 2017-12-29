@@ -7,7 +7,7 @@ import java.io.*;
 import dealenx.gameserver.*;
 import dealenx.gameserver.backend.*;
 
-public class GameToServerApp {
+public class GameBDApp {
 
 	public static void main(String[] args) {
 		try {
